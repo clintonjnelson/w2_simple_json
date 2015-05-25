@@ -1,14 +1,13 @@
 'use strict';
 
 // Modules
-var mongrouse = require('../lib/mongrouse');
+var mongrouse = require('../lib/mongrouse.js');
 
 // Define Schema
 var userSchema = {
   username: String,
   email: String,
   passtoken: String,
-  created_at: Date
 };
 
 

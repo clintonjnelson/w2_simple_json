@@ -15,10 +15,10 @@ require('../server.js');
 describe('Users', function() {
   describe('with existing users', function() {
     // Populate database
-    var newUsers;
+    var newUser;
     before(function(done) {
-      newUsers = User.create({username: 'joe', email: 'joe@joe.com', passtoken: '1234'}, function(err, data) {
-        newUsers = data;
+      newUser = User.create({username: 'joe', email: 'joe@joe.com', passtoken: '1234'}, function(err, data) {
+        newUser = JSON.parse(data);
         done();
       });
     });
@@ -64,7 +64,7 @@ describe('Users', function() {
       var resMsg;
       before(function(done) {
         chai.request('localhost:3000')
-          .patch('/api/users/1')
+          .patch('/api/users/' + newUser.id)
           .send({'username': 'joseph', 'email':'joseph@joe.com'})
           .end(function(err, res) {
             resMsg = res.body.msg;
@@ -78,7 +78,6 @@ describe('Users', function() {
          chai.request('localhost:3000')
           .get('/api/users')
           .end(function(err, res) {
-            console.log('BODY: ',res.body[0]);
             expect(res.body[0].username).to.eq('joseph');
             expect(res.body[0].email).to.eq('joseph@joe.com');
             expect(res.body[0].passtoken).to.eq('1234');
@@ -90,7 +89,7 @@ describe('Users', function() {
     describe('PUT', function() {
       before(function(done) {
         chai.request('localhost:3000')
-          .put('/api/users/1')
+          .put('/api/users/' + newUser.id)
           .send({'username': 'joseph', 'email':'joseph@joe.com'})
           .end(function(err, res) {
             done();
